@@ -15,6 +15,41 @@
     name: newrelic-infra
     update_cache: yes
 
+- name: Install MySQL OHI
+  apt:
+    name: nri-mysql
+    state: latest
+
+#- name: Install Python Module for MySQL
+#  apt:
+#    name: python-mysqldb
+#    state: latest
+#
+# Watch https://github.com/ansible/ansible/issues/26581#issuecomment-413876699
+# Watch https://github.com/ansible-collections/community.general/issues/170
+#- name: Create NewRelic User
+#  mysql_user:
+#    name: "{{ ohi_mysql_user }}"
+#    password: "{{ ohi_mysql_password }}"
+#    priv: "*.*:REPLICATION"
+
+- name: Check if newrelic user is already created
+  command: "mysql -u {{ ohi_mysql_user }} -p{{ ohi_mysql_password }} -e 'SELECT 1'"
+  register: ohi_mysql_user_res
+  ignore_errors: true
+  changed_when: false
+
+- name: Create newrelic user on MySQL
+  command: mysql -e "CREATE USER '{{ ohi_mysql_user }}'@'localhost' IDENTIFIED BY '{{ ohi_mysql_password }}';"
+  when: ohi_mysql_user_res.rc != 0
+
+- name: Ensure newrelic user has the right privilege
+  command: mysql -e "GRANT REPLICATION CLIENT ON *.* TO '{{ ohi_mysql_user }}'@'localhost' WITH MAX_USER_CONNECTIONS 5;"
+  when: ohi_mysql_user_res.rc != 0
+
+- name: Copy MySQL OHI configuration file
+  template: src=mysql-config.yml dest=/etc/newrelic-infra/integrations.d/mysql-config.yml
+
 - name: Restart NewRelic infra agent
   service:
     name: newrelic-infra
