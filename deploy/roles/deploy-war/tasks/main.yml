@@ -17,4 +17,4 @@
   template: src=tomcat.service dest=/etc/systemd/system/tomcat.service
 
 - name: Notify deployment
-  command: java -jar {{ newrelic_agent_path }}/newrelic.jar deployment --appname {{ app_name }} --user {{ deployment_user }} --revision "dev"
+  command: java -jar {{ newrelic_agent_path }}/newrelic.jar deployment --appname {{ app_name }} --user {{ deployment_user }} --revision {{ lookup('env', 'REVISION') }}
