@@ -1,0 +1,16 @@
+---
+- name: Add the New Relic Infrastructure Agent gpg key.
+  apt_key:
+    url: https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg
+    state: present
+
+- name: Create a configuration file and add your license key
+  template: src=newrelic-infra.yml dest=/etc/newrelic-infra.yml
+
+- name: Create the agent’s repository
+  template: src=newrelic-infra.list dest=/etc/apt/sources.list.d/newrelic-infra.list
+
+- name: Update APT cache and install newrelic-infra
+  apt:
+    name: newrelic-infra
+    update_cache: yes

@@ -1,0 +1,9 @@
+---
+- name: Download NewRelic Java agent
+  get_url: url=https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip dest={{ newrelic_install_path }}/newrelic-java.zip
+
+- name: Extract archive
+  command: chdir={{ newrelic_install_path }} /usr/bin/unzip newrelic-java.zip creates={{ newrelic_agent_path }}
+
+- name: Copy NewRelic config
+  template: src=newrelic.yml dest={{ newrelic_agent_path }}/newrelic.yml
