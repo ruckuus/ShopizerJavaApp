@@ -1,9 +1,8 @@
 ---
-- name: Install NewRelic agents.
+- name: Deploy web app.
   hosts: tomcat
   remote_user: "{{ remote_user }}"
   become: yes
   become_method: sudo
   roles:
-    - newrelic-agent
-    - newrelic-infrastructure-agent
+    - deploy-war

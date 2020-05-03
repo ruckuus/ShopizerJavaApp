@@ -1,0 +1,20 @@
+---
+#- name: Get version
+#  command: git
+- name: Create WAR file backup for rollback
+  command: cp {{ war_file_path }} {{ war_file_path }}.backup
+
+- name: Synchronize WAR file from local to remote server with Rsync
+  synchronize:
+    src: "{{ war_file_source }}"
+    dest: "{{ war_file_path }}"
+
+- name: Ensure Catalina.sh is updated with NewRelic java agent in JAVA_OPTS
+  template: src=catalina.sh dest=/opt/tomcat/bin/catalina.sh
+
+# Ideally this is to be part of the provisioning of the machine instead of here.
+- name: Ensure Tomcat is registered as systemd service
+  template: src=tomcat.service dest=/etc/systemd/system/tomcat.service
+
+- name: Notify deployment
+  command: java -jar {{ newrelic_agent_path }}/newrelic.jar deployment --appname {{ app_name }} --user {{ deployment_user }} --revision "dev"

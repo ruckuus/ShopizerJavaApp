@@ -14,3 +14,8 @@
   apt:
     name: newrelic-infra
     update_cache: yes
+
+- name: Restart NewRelic infra agent
+  service:
+    name: newrelic-infra
+    state: restarted
