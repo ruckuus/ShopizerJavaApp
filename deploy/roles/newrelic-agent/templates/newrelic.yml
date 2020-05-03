@@ -141,7 +141,7 @@ common: &default_settings
     # SQL, "raw" which sends the SQL statement in its original form,
     # and "obfuscated", which strips out numeric and string literals.
     # Default is obfuscated.
-    record_sql: obfuscated
+    record_sql: {{ record_sql_type }}
 
     # Set this to true to log SQL statements instead of recording them.
     # SQL is logged using the record_sql mode.
