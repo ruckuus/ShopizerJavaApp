@@ -1,0 +1,21 @@
+[Unit]
+Description=Apache Tomcat Web Application Container
+After=syslog.target network.target
+
+[Service]
+Type=forking
+
+Environment=JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+Environment=JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+Environment=CLASSPATH=/opt/tomcat/bin/bootstrap.jar:/opt/tomcat/bin/tomcat-juli.jar
+Environment=CATALINA_HOME=/opt/tomcat
+Environment=CATALINA_BASE=/opt/tomcat
+
+ExecStart=/opt/tomcat/bin/startup.sh
+ExecStop=/opt/tomcat/bin/shutdown.sh
+
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
