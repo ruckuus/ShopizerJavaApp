@@ -1,0 +1,24 @@
+---
+# General Ansible config
+remote_user: dwisupriyadi20
+
+# NewRelic module configuration
+newrelic_license_key: "{{ lookup('env', 'NEWRELIC_LICENSE_KEY') }}"
+newrelic_install_path: /opt/
+newrelic_agent_path: /opt/newrelic
+
+# Deployment config
+war_file_path: /opt/tomcat/webapps/ROOT.war
+war_file_source: ../../sm-shop/target/ROOT.war
+
+# Deployment notification
+deployment_user: ansible-deploy
+app_name: ShopizerJavaApp
+
+# NewRelic Agent
+# obfuscated, raw, off
+record_sql_type: obfuscated
+
+# MySQL OHI
+ohi_mysql_user: newrelic
+ohi_mysql_password: password
