@@ -1,0 +1,5 @@
+logs:
+  - name: "catalina"
+    file: /opt/tomcat/logs/catalina.out
+  - name: "mysql_error"
+    file: /var/log/mysql/error.log

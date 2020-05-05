@@ -50,6 +50,9 @@
 - name: Copy MySQL OHI configuration file
   template: src=mysql-config.yml dest=/etc/newrelic-infra/integrations.d/mysql-config.yml
 
+- name: Enable log forwarding
+  template: src=logs.yml dest=/etc/newrelic-infra/logging.d/logs.yml
+
 - name: Restart NewRelic infra agent
   service:
     name: newrelic-infra
