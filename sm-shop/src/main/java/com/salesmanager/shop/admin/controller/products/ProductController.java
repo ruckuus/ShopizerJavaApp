@@ -122,14 +122,9 @@ public class ProductController {
 	
 	private String displayProduct(Long productId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		// Custom NewRelic transaction name
-		NewRelic.setTransactionName("Web", "Display Product");
-		NewRelic.addCustomParameter("productId", productId.toString());
-
 		//display menu
 		setMenu(model,request);
-		
-		
+
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		

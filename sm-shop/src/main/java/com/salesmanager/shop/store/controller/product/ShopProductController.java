@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.controller.product;
 
+import com.newrelic.api.agent.NewRelic;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
@@ -127,7 +128,10 @@ public class ShopProductController {
 
 
 	public String display(final String reference, final String friendlyUrl, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
-		
+
+		// Custom NewRelic transaction name
+		NewRelic.setTransactionName("Web", "Display Product");
+		NewRelic.addCustomParameter("productId", friendlyUrl);
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		Language language = (Language)request.getAttribute("LANGUAGE");
