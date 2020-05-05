@@ -1,5 +1,6 @@
 package com.salesmanager.shop.admin.controller.products;
 
+import com.newrelic.api.agent.NewRelic;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
@@ -120,7 +121,10 @@ public class ProductController {
 	
 	
 	private String displayProduct(Long productId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
+		// Custom NewRelic transaction name
+		NewRelic.setTransactionName("Web", "Display Product");
+		NewRelic.addCustomParameter("productId", productId.toString());
 
 		//display menu
 		setMenu(model,request);

@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.controller.order;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.newrelic.api.agent.NewRelic;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
@@ -140,6 +141,9 @@ public class ShoppingOrderController extends AbstractController {
 	@SuppressWarnings("unused")
 	@RequestMapping("/checkout.html")
 	public String displayCheckout(@CookieValue("cart") String cookie, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
+
+		// NewRelic transaction name
+		NewRelic.setTransactionName("Web", "Checkout");
 
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
@@ -613,6 +617,10 @@ public class ShoppingOrderController extends AbstractController {
 	@RequestMapping("/commitOrder.html")
 	public String commitOrder(@CookieValue("cart") String cookie, @Valid @ModelAttribute(value="order") ShopOrder order, BindingResult bindingResult, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 
+		String orderIdTracker = order.getId().toString();
+		NewRelic.setTransactionName("Web", "CommitOrder");
+		NewRelic.addCustomParameter("CommitOrderStart", orderIdTracker);
+
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		//validate if session has expired
@@ -697,7 +705,8 @@ public class ShoppingOrderController extends AbstractController {
 					
 					
 				}
-				
+
+
 				ShippingQuote quote = orderFacade.getShippingQuote(order.getCustomer(), cart, order, store, language);
 				
 				
@@ -729,6 +738,7 @@ public class ShoppingOrderController extends AbstractController {
 										optionCodeBuilder.append("module.shipping.").append(shipOption.getShippingModuleCode()).append(".").append(shipOption.getOptionCode());
 										String optionName = messages.getMessage(optionCodeBuilder.toString(),locale);
 										shipOption.setOptionName(optionName);
+
 									} catch(Exception e) {//label not found
 										LOGGER.warn("No shipping code found for " + optionCodeBuilder.toString());
 									}
@@ -750,9 +760,13 @@ public class ShoppingOrderController extends AbstractController {
 				}
 				
 				model.addAttribute("shippingQuote", quote);
+				NewRelic.addCustomParameter("OrderCommitShipping", orderIdTracker);
+
 				model.addAttribute("paymentMethods", paymentMethods);
-				
-				if(quote!=null) {
+				NewRelic.addCustomParameter("OrderCommitPayment", orderIdTracker);
+				NewRelic.addCustomParameter("paymentMethod", paymentMethods.toString());
+
+			if(quote!=null) {
 					List<Country> shippingCountriesList = orderFacade.getShipToCountry(store, language);
 					model.addAttribute("countries", shippingCountriesList);
 				} else {
@@ -840,8 +854,10 @@ public class ShoppingOrderController extends AbstractController {
 		    		return template.toString();
 	
 		        }
-		        
-		        @SuppressWarnings("unused")
+
+		        // Assume that the order is committed.
+		        NewRelic.addCustomParameter("OrderCommitDone", orderIdTracker);
+			@SuppressWarnings("unused")
 				Order modelOrder = this.commitOrder(order, request, locale);
 
 	        

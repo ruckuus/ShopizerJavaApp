@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.newrelic.api.agent.NewRelic;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -199,6 +200,10 @@ public class SearchController {
 	 */
 	@RequestMapping(value={"/shop/search/search.html"}, method=RequestMethod.POST)
 	public String displaySearch(@RequestParam("q") String query, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
+
+		// NewRelic custom transaction
+		NewRelic.setTransactionName("Web", "Search");
+		NewRelic.addCustomParameter("searchKeyword", query);
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 
