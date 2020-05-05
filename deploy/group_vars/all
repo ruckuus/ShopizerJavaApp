@@ -17,7 +17,7 @@ app_name: ShopizerJavaApp
 
 # NewRelic Agent
 # obfuscated, raw, off
-record_sql_type: obfuscated
+record_sql_type: raw
 
 # MySQL OHI
 ohi_mysql_user: newrelic
