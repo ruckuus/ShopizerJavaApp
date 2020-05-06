@@ -53,8 +53,8 @@ $browser.getCapabilities()
         return $browser.waitForAndFindElement(By.id("searchField"), DefaultTimeout)
             .then(function (el) { el.clear(); el.sendKeys(rndString); }); })
     .then(function click() {
-        logger.log(5, "clickElement xpath=(.//*[normalize-space(text()) and normalize-space(.)=\'Default store\'])[2]/following::button[1]");
-        return $browser.waitForAndFindElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Default store'])[2]/following::button[1]"), DefaultTimeout)
+        logger.log(5, "clickElement xpath=(.//*[normalize-space(text()) and normalize-space(.)=\'The Book Express\'])[2]/following::button[1]");
+        return $browser.waitForAndFindElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='The Book Express'])[2]/following::button[1]"), DefaultTimeout)
             .then(function (el) { el.click(); }); })
     .then(function click() {
         logger.log(6, "clickElement id=searchField");
@@ -65,8 +65,8 @@ $browser.getCapabilities()
         return $browser.waitForAndFindElement(By.id("searchField"), DefaultTimeout)
             .then(function (el) { el.clear(); el.sendKeys(rndString); }); })
     .then(function click() {
-        logger.log(8, "clickElement xpath=(.//*[normalize-space(text()) and normalize-space(.)=\'Default store\'])[2]/following::button[1]");
-        return $browser.waitForAndFindElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Default store'])[2]/following::button[1]"), DefaultTimeout)
+        logger.log(8, "clickElement xpath=(.//*[normalize-space(text()) and normalize-space(.)=\'The Book Express\'])[2]/following::button[1]");
+        return $browser.waitForAndFindElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='The Book Express'])[2]/following::button[1]"), DefaultTimeout)
             .then(function (el) { el.click(); }); }) .then(function click() { logger.log(9, "clickElement id=searchField");
             return $browser.waitForAndFindElement(By.id("searchField"), DefaultTimeout)
                 .then(function (el) { el.click(); }); })
@@ -74,8 +74,8 @@ $browser.getCapabilities()
     return $browser.waitForAndFindElement(By.id("searchField"), DefaultTimeout)
         .then(function (el) { el.clear(); el.sendKeys(rndString); }); })
     .then(function click() {
-        logger.log(11, "clickElement xpath=(.//*[normalize-space(text()) and normalize-space(.)=\'Default store\'])[2]/following::button[1]");
-        return $browser.waitForAndFindElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Default store'])[2]/following::button[1]"), DefaultTimeout)
+        logger.log(11, "clickElement xpath=(.//*[normalize-space(text()) and normalize-space(.)=\'The Book Express\'])[2]/following::button[1]");
+        return $browser.waitForAndFindElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='The Book Express'])[2]/following::button[1]"), DefaultTimeout)
             .then(function (el) { el.click(); }); })
     .then(function () {
         logger.end();
